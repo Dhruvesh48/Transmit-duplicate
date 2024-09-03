@@ -15,6 +15,14 @@ class Community(models.Model):
 
     def __str__(self):
         return f"{self.title}"
+    
+class JoinCommunity(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="joining_community")
+    join_community = models.ManyToManyField(Community)
+    join = models.BooleanField()
+
+    def __str__(self):
+        return f"{self.user.username}"
 
 class Post(models.Model):
     title = models.CharField(max_length=200, unique=True)
