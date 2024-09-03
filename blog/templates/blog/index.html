@@ -3,10 +3,35 @@
 {% block content %}
 
 <!-- index.html content starts here -->
-<div class="container-fluid">
-    <div class="row">
 
-        <!-- Blog Entries Column -->
+<div class="container px-4 text-center">
+    <div class="row gx-5">
+      <div class="col-md-4">
+       <div class="p-3 dark-bg">Custom column padding</div>
+      </div>
+      <div class="col-md-8">
+        <div class="p-3 dark-bg">
+            {% for post in post_list%}
+            <div class="card">
+                <div class="card-header light-bg text-left">
+                    <a href="{% url 'community_detail' name=post.community %}" class="post-link">{{ post.community }}</a>
+                </div>
+                <div class="card-body light-bg">
+                    <h5 class="card-title text-left">
+                        <a href="{% url 'post_detail' slug=post.slug %}" class="post-link">{{ post.title }}</a>
+                    </h5>
+                  <p class="card-text text-left"> {{post.content}} </p>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+      </div>
+    </div>
+</div>
+
+<!-- index.html content starts here -->
+<!-- <div class="container-fluid">
+    <div class="row"> 
         <div class="col-12 mt-3 left">
             <div class="row">
                 {% for post in post_list %}
@@ -46,7 +71,7 @@
         </ul>
     </nav>
     {% endif %}
-</div>
+</div> -->
 
 <!-- index.html content ends here -->
 {% endblock %}

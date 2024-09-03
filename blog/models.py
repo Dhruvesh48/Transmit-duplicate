@@ -5,16 +5,13 @@ from django.contrib.auth.models import User
 STATUS = ((0, "Draft"), (1, "Published"))
 
 
+
 class Community(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="blog_community")
-    title = models.CharField(max_length=500)
+    name = models.CharField(max_length=500, unique=True)
     description = models.TextField()
-    url = models.CharField(max_length=500, null=True, blank=True)
-    created_on = models.DateTimeField(auto_now_add=True)
-    updated_on = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return f"{self.title}"
+        return f"{self.name}"
     
 class JoinCommunity(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="joining_community")
@@ -27,9 +24,8 @@ class JoinCommunity(models.Model):
 class Post(models.Model):
     title = models.CharField(max_length=200, unique=True)
     slug = models.SlugField(max_length=200, unique=True)
-    user = models.ForeignKey(
-        User, on_delete=models.CASCADE, related_name="blog_posts"
-    )
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="blog_posts")
+    community = models.ForeignKey(Community, on_delete=models.CASCADE, related_name="community", default=None, null=True)
     content = models.TextField()
     created_on = models.DateTimeField(auto_now_add=True)
     status = models.IntegerField(choices=STATUS, default=0)
